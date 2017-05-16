@@ -166,11 +166,12 @@ class ApiResourceDAO {
         return null;
     }
 
-    static InputStream getBinaryResource(Connection connection, String resourceID) throws SQLException {
-        final String query = "SELECT RESOURCE_BINARY_VALUE FROM AM_API_RESOURCES WHERE UUID = ?";
+    static InputStream getBinaryResource(Connection connection, String apiID, String resourceID) throws SQLException {
+        final String query = "SELECT RESOURCE_BINARY_VALUE FROM AM_API_RESOURCES WHERE API_ID = ? AND UUID = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setString(1, resourceID);
+            statement.setString(1, apiID);
+            statement.setString(2, resourceID);
             statement.execute();
 
             try (ResultSet rs =  statement.getResultSet()) {
@@ -186,11 +187,12 @@ class ApiResourceDAO {
         return null;
     }
 
-    static String getTextResource(Connection connection, String resourceID) throws SQLException {
-        final String query = "SELECT RESOURCE_TEXT_VALUE FROM AM_API_RESOURCES WHERE UUID = ?";
+    static String getTextResource(Connection connection, String apiID, String resourceID) throws SQLException {
+        final String query = "SELECT RESOURCE_TEXT_VALUE FROM AM_API_RESOURCES WHERE API_ID = ? AND UUID = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setString(1, resourceID);
+            statement.setString(1, apiID);
+            statement.setString(2, resourceID);
             statement.execute();
 
             try (ResultSet rs =  statement.getResultSet()) {

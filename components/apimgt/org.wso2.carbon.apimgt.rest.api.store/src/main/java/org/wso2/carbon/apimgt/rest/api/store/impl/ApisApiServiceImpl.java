@@ -333,7 +333,7 @@ public class ApisApiServiceImpl extends ApisApiService {
                 return Response.notModified().build();
             }
 
-            DocumentContent documentationContent = apiStore.getDocumentationContent(documentId);
+            DocumentContent documentationContent = apiStore.getDocumentationContent(apiId, documentId);
             DocumentInfo documentInfo = documentationContent.getDocumentInfo();
             if (DocumentInfo.SourceType.FILE.equals(documentInfo.getSourceType())) {
                 String filename = documentInfo.getFileName();
@@ -427,7 +427,7 @@ public class ApisApiServiceImpl extends ApisApiService {
                 return Response.notModified().build();
             }
 
-            DocumentInfo documentInfo = apiStore.getDocumentationSummary(documentId);
+            DocumentInfo documentInfo = apiStore.getDocumentationSummary(apiId, documentId);
             documentDTO = DocumentationMappingUtil.fromDocumentationToDTO(documentInfo);
             return Response.ok().entity(documentDTO)
                     .header(HttpHeaders.ETAG, "\"" + existingFingerprint + "\"").build();

@@ -135,20 +135,22 @@ public interface APIManager {
     /**
      * Get a summary of documentation by doc Id
      *
+     * @param apiId ID of the API which ownes this document
      * @param docId Document ID
      * @return {@code DocumentInfo} Documentation meta data
      * @throws APIManagementException if it failed to fetch Documentation
      */
-    DocumentInfo getDocumentationSummary(String docId) throws APIManagementException;
+    DocumentInfo getDocumentationSummary(String apiId, String docId) throws APIManagementException;
 
     /**
      * This method used to get the content of a documentation
      *
+     * @param apiId ID of the API which ownes this document
      * @param docId Document ID
      * @return {@code DocumentContent} Input stream for document content
      * @throws APIManagementException if the requested documentation content is not available
      */
-    DocumentContent getDocumentationContent(String docId) throws APIManagementException;
+    DocumentContent getDocumentationContent(String apiId, String docId) throws APIManagementException;
 
     /**
      * Returns the corresponding application given the uuid

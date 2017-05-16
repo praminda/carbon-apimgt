@@ -867,7 +867,7 @@ public class ApiDAOImplIT extends DAOIntegrationTestBase {
         apiDAO.addAPI(api);
         DocumentInfo documentInfo = SampleTestObjectCreator.createDefaultDocumentationInfo();
         apiDAO.addDocumentInfo(api.getId(), documentInfo);
-        DocumentInfo documentInfoFromDB = apiDAO.getDocumentInfo(documentInfo.getId());
+        DocumentInfo documentInfoFromDB = apiDAO.getDocumentInfo(api.getId(), documentInfo.getId());
         Assert.assertEquals(documentInfo, documentInfoFromDB);
     }
 
@@ -881,7 +881,7 @@ public class ApiDAOImplIT extends DAOIntegrationTestBase {
         apiDAO.addDocumentInfo(api.getId(), documentInfo);
         String inlineDocContent = SampleTestObjectCreator.createDefaultInlineDocumentationContent();
         apiDAO.addDocumentInlineContent(documentInfo.getId(), inlineDocContent, ADMIN);
-        String inlineDocContentFromDB = apiDAO.getDocumentInlineContent(documentInfo.getId());
+        String inlineDocContentFromDB = apiDAO.getDocumentInlineContent(api.getId(), documentInfo.getId());
         Assert.assertEquals(inlineDocContent, inlineDocContentFromDB);
     }
 
@@ -897,7 +897,7 @@ public class ApiDAOImplIT extends DAOIntegrationTestBase {
         apiDAO.addDocumentInfo(api.getId(), documentInfo);
         //delete documentation
         apiDAO.deleteDocument(docId);
-        DocumentInfo documentInfoFromDB = apiDAO.getDocumentInfo(docId);
+        DocumentInfo documentInfoFromDB = apiDAO.getDocumentInfo(api.getId(), docId);
         Assert.assertNull(documentInfoFromDB);
     }
 

@@ -273,31 +273,39 @@ public interface ApiDAO {
     List<DocumentInfo> getDocumentsInfoList(String apiID) throws APIMgtDAOException;
 
     /**
+     * Retrieves information of an API document
      *
+     * @param apiID The UUID of the API that owns this document resource
      * @param resourceID The UUID of the respective resource
      * @return {@link DocumentInfo} DocumentInfo meta data
      * @throws APIMgtDAOException if error occurs while accessing data layer
      */
     @CheckForNull
-    DocumentInfo getDocumentInfo(String resourceID) throws APIMgtDAOException;
+    DocumentInfo getDocumentInfo(String apiID, String resourceID) throws APIMgtDAOException;
 
     /**
+     * Retrieves the content of a {@link org.wso2.carbon.apimgt.core.models.DocumentInfo.SourceType#FILE}
+     * type document
      *
+     * @param apiID UUID of the API which owns this document
      * @param resourceID The UUID of the respective resource
      * @return {@link InputStream} Document File content
      * @throws APIMgtDAOException if error occurs while accessing data layer
      */
     @CheckForNull
-    InputStream getDocumentFileContent(String resourceID) throws APIMgtDAOException;
+    InputStream getDocumentFileContent(String apiID, String resourceID) throws APIMgtDAOException;
 
     /**
+     * Retrieves the content of a {@link org.wso2.carbon.apimgt.core.models.DocumentInfo.SourceType#INLINE}
+     * type document
      *
+     * @param apiID UUID of the API which owns this document
      * @param resourceID The UUID of the respective resource
      * @return {@link String} Document inline content
      * @throws APIMgtDAOException if error occurs while accessing data layer
      */
     @CheckForNull
-    String getDocumentInlineContent(String resourceID) throws APIMgtDAOException;
+    String getDocumentInlineContent(String apiID, String resourceID) throws APIMgtDAOException;
 
     /**
      * Add document info meta data to an API
@@ -350,12 +358,14 @@ public interface ApiDAO {
 
     /**
      * used to deprecate older versions of the api
+     *
      * @param identifier API ID.
      */
     void deprecateOlderVersions(String identifier);
 
     /**
      * Check if document Exist
+     *
      * @param apiId UUID of the API.
      * @param documentInfo  Document.
      * @return  TRUE or false based on the existence of document.

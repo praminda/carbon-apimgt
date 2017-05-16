@@ -1125,47 +1125,30 @@ public class ApiDAOImpl implements ApiDAO {
         }
     }
 
-    /**
-     * Return Document info object
-     *
-     * @param resourceID The UUID of the respective Document
-     * @return {@link DocumentInfo} DocumentInfo meta data
-     * @throws APIMgtDAOException if error occurs while accessing data layer
-     */
     @Override
     @CheckForNull
-    public DocumentInfo getDocumentInfo(String resourceID) throws APIMgtDAOException {
+    public DocumentInfo getDocumentInfo(String apiID, String resourceID) throws APIMgtDAOException {
         try (Connection connection = DAOUtil.getConnection()) {
-            return DocMetaDataDAO.getDocumentInfo(connection, resourceID);
+            return DocMetaDataDAO.getDocumentInfo(connection, apiID, resourceID);
         } catch (SQLException e) {
             throw new APIMgtDAOException(e);
         }
     }
 
-    /**
-     * @param resourceID The UUID of the respective Document
-     * @return {@link InputStream} Document Info object
-     * @throws APIMgtDAOException if error occurs while accessing data layer
-     */
     @Override
     @CheckForNull
-    public InputStream getDocumentFileContent(String resourceID) throws APIMgtDAOException {
+    public InputStream getDocumentFileContent(String apiID, String resourceID) throws APIMgtDAOException {
         try (Connection connection = DAOUtil.getConnection()) {
-            return ApiResourceDAO.getBinaryResource(connection, resourceID);
+            return ApiResourceDAO.getBinaryResource(connection, apiID, resourceID);
         } catch (SQLException e) {
             throw new APIMgtDAOException(e);
         }
     }
 
-    /**
-     * @param resourceID The UUID of the respective resource
-     * @return {@link String} Document inline content
-     * @throws APIMgtDAOException if error occurs while accessing data layer
-     */
     @Override
-    public String getDocumentInlineContent(String resourceID) throws APIMgtDAOException {
+    public String getDocumentInlineContent(String apiID, String resourceID) throws APIMgtDAOException {
         try (Connection connection = DAOUtil.getConnection()) {
-            return ApiResourceDAO.getTextResource(connection, resourceID);
+            return ApiResourceDAO.getTextResource(connection, apiID, resourceID);
         } catch (SQLException e) {
             throw new APIMgtDAOException(e);
         }

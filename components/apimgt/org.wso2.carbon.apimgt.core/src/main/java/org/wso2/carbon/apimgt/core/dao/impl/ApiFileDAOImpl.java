@@ -176,26 +176,26 @@ public class ApiFileDAOImpl implements ApiDAO {
     }
 
     /**
-     * @see ApiDAO#getDocumentInfo(String resourceID)
+     * {@inheritDoc}
      */
     @Override
-    public DocumentInfo getDocumentInfo(String resourceID) throws APIMgtDAOException {
+    public DocumentInfo getDocumentInfo(String apiID, String resourceID) throws APIMgtDAOException {
         throw new UnsupportedOperationException();
     }
 
     /**
-     * @see ApiDAO#getDocumentFileContent(String resourceID)
+     * {@inheritDoc}
      */
     @Override
-    public InputStream getDocumentFileContent(String resourceID) throws APIMgtDAOException {
+    public InputStream getDocumentFileContent(String apiID, String resourceID) throws APIMgtDAOException {
         throw new UnsupportedOperationException();
     }
 
     /**
-     * @see ApiDAO#getDocumentInlineContent(String resourceID)
+     * {@inheritDoc}
      */
     @Override
-    public String getDocumentInlineContent(String resourceID) throws APIMgtDAOException {
+    public String getDocumentInlineContent(String apiID, String resourceID) throws APIMgtDAOException {
         throw new UnsupportedOperationException();
     }
 

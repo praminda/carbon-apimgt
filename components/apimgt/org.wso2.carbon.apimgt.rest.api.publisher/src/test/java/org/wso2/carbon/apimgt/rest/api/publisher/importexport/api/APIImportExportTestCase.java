@@ -118,9 +118,9 @@ public class APIImportExportTestCase {
         Mockito.when(apiPublisher.getSwagger20Definition(api1Id)).thenReturn(api1Definition);
         Mockito.when(apiPublisher.getApiGatewayConfig(api1Id)).thenReturn(api1GatewayConfig);
         Mockito.when(apiPublisher.getAllDocumentation(api1Id, 0, Integer.MAX_VALUE)).thenReturn(api1DocumentInfo);
-        Mockito.when(apiPublisher.getDocumentationContent(api1Doc1Id)).thenReturn(api1Doc1Content);
-        Mockito.when(apiPublisher.getDocumentationContent(api1Doc2Id)).thenReturn(api1Doc2Content);
-        Mockito.when(apiPublisher.getDocumentationContent(api1Doc3Id)).thenReturn(api1Doc3Content);
+        Mockito.when(apiPublisher.getDocumentationContent(api1Id, api1Doc1Id)).thenReturn(api1Doc1Content);
+        Mockito.when(apiPublisher.getDocumentationContent(api1Id, api1Doc2Id)).thenReturn(api1Doc2Content);
+        Mockito.when(apiPublisher.getDocumentationContent(api1Id, api1Doc3Id)).thenReturn(api1Doc3Content);
         Mockito.when(apiPublisher.getThumbnailImage(api1Id)).thenReturn(getClass().getClassLoader().getResourceAsStream
                 ("api1_thumbnail.png"));
         List<API> apis = new ArrayList<>();
@@ -170,9 +170,10 @@ public class APIImportExportTestCase {
         Mockito.when(apiPublisher.getSwagger20Definition(api4Id)).thenReturn(api1Definition);
         Mockito.when(apiPublisher.getApiGatewayConfig(api4Id)).thenReturn(api1GatewayConfig);
         Mockito.when(apiPublisher.getAllDocumentation(api4Id, 0, Integer.MAX_VALUE)).thenReturn(api1DocumentInfo);
-        Mockito.when(apiPublisher.getDocumentationContent(api4Doc1Id)).thenReturn(api4Doc1Content);
-        Mockito.when(apiPublisher.getDocumentationContent(api4Doc2Id)).thenReturn(api4Doc2Content);
-        Mockito.when(apiPublisher.getDocumentationContent(api4Doc3Id)).thenReturn(api4Doc3Content);
+
+        Mockito.when(apiPublisher.getDocumentationContent(api4Id, api4Doc1Id)).thenReturn(api4Doc1Content);
+        Mockito.when(apiPublisher.getDocumentationContent(api4Id, api4Doc2Id)).thenReturn(api4Doc2Content);
+        Mockito.when(apiPublisher.getDocumentationContent(api4Id, api4Doc3Id)).thenReturn(api4Doc3Content);
         Mockito.when(apiPublisher.getThumbnailImage(api4Id)).thenReturn(null);
 
         String api5Id = UUID.randomUUID().toString();
@@ -202,8 +203,8 @@ public class APIImportExportTestCase {
         Mockito.when(apiPublisher.getSwagger20Definition(api5Id)).thenReturn(api1Definition);
         Mockito.when(apiPublisher.getApiGatewayConfig(api5Id)).thenReturn(api1GatewayConfig);
         Mockito.when(apiPublisher.getAllDocumentation(api5Id, 0, Integer.MAX_VALUE)).thenReturn(api5DocumentInfo);
-        Mockito.when(apiPublisher.getDocumentationContent(api5Doc1Id)).thenReturn(api5Doc1Content);
-        Mockito.when(apiPublisher.getDocumentationContent(api5Doc3Id)).thenReturn(api5Doc3Content);
+        Mockito.when(apiPublisher.getDocumentationContent(api5Id, api5Doc1Id)).thenReturn(api5Doc1Content);
+        Mockito.when(apiPublisher.getDocumentationContent(api5Id, api5Doc3Id)).thenReturn(api5Doc3Content);
         Mockito.when(apiPublisher.getThumbnailImage(api5Id)).thenReturn(getClass().getClassLoader().getResourceAsStream
                 ("api1_thumbnail.png"));
 
@@ -256,9 +257,9 @@ public class APIImportExportTestCase {
         Mockito.when(apiPublisher.getSwagger20Definition(api6Id)).thenReturn(api1Definition);
         Mockito.when(apiPublisher.getApiGatewayConfig(api6Id)).thenReturn(api1GatewayConfig);
         Mockito.when(apiPublisher.getAllDocumentation(api6Id, 0, Integer.MAX_VALUE)).thenReturn(api1DocumentInfo);
-        Mockito.when(apiPublisher.getDocumentationContent(api6Doc1Id)).thenReturn(api6Doc1Content);
-        Mockito.when(apiPublisher.getDocumentationContent(api6Doc2Id)).thenReturn(api6Doc2Content);
-        Mockito.when(apiPublisher.getDocumentationContent(api6Doc3Id)).thenReturn(api6Doc3Content);
+        Mockito.when(apiPublisher.getDocumentationContent(api6Id, api6Doc1Id)).thenReturn(api6Doc1Content);
+        Mockito.when(apiPublisher.getDocumentationContent(api6Id, api6Doc2Id)).thenReturn(api6Doc2Content);
+        Mockito.when(apiPublisher.getDocumentationContent(api6Id, api6Doc3Id)).thenReturn(api6Doc3Content);
         Mockito.when(apiPublisher.getThumbnailImage(api6Id)).thenReturn(getClass().getClassLoader().getResourceAsStream
                 ("api1_thumbnail.png"));
 
@@ -288,8 +289,8 @@ public class APIImportExportTestCase {
         Mockito.when(apiPublisher.getSwagger20Definition(api7Id)).thenReturn(api1Definition);
         Mockito.when(apiPublisher.getApiGatewayConfig(api7Id)).thenReturn(api1GatewayConfig);
         Mockito.when(apiPublisher.getAllDocumentation(api7Id, 0, Integer.MAX_VALUE)).thenReturn(api7DocumentInfo);
-        Mockito.when(apiPublisher.getDocumentationContent(api7Doc1Id)).thenReturn(api7Doc1Content);
-        Mockito.when(apiPublisher.getDocumentationContent(api7Doc3Id)).thenReturn(api7Doc3Content);
+        Mockito.when(apiPublisher.getDocumentationContent(api7Id, api7Doc1Id)).thenReturn(api7Doc1Content);
+        Mockito.when(apiPublisher.getDocumentationContent(api7Id, api7Doc3Id)).thenReturn(api7Doc3Content);
         Mockito.when(apiPublisher.getThumbnailImage(api7Id)).thenReturn(getClass().getClassLoader().getResourceAsStream
                 ("api1_thumbnail.png"));
 

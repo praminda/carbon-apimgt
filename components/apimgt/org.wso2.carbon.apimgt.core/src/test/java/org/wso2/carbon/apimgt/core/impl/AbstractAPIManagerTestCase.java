@@ -86,10 +86,10 @@ public class AbstractAPIManagerTestCase {
         ApiDAO apiDAO = mock(ApiDAO.class);
         AbstractAPIManager apiStore = new APIStoreImpl(USER_NAME, apiDAO, null, null, null, null, null, null);
         DocumentInfo documentInfoMock = SampleTestObjectCreator.getMockDocumentInfoObject(UUID);
-        when(apiDAO.getDocumentInfo(UUID)).thenReturn(documentInfoMock);
-        DocumentInfo documentInfo = apiStore.getDocumentationSummary(UUID);
+        when(apiDAO.getDocumentInfo(UUID, UUID)).thenReturn(documentInfoMock);
+        DocumentInfo documentInfo = apiStore.getDocumentationSummary(UUID, UUID);
         Assert.assertNotNull(documentInfo);
-        verify(apiDAO, times(1)).getDocumentInfo(UUID);
+        verify(apiDAO, times(1)).getDocumentInfo(UUID, UUID);
     }
 
     @Test(description = "Retrieve list of documentations")
@@ -213,12 +213,12 @@ public class AbstractAPIManagerTestCase {
         builder.name("CalculatorDoc");
         builder.sourceType(DocumentInfo.SourceType.FILE);
         DocumentInfo documentInfo = builder.build();
-        when(apiDAO.getDocumentInfo(DOC_ID)).thenReturn(documentInfo);
+        when(apiDAO.getDocumentInfo(UUID, DOC_ID)).thenReturn(documentInfo);
         String stream = "This is sample file content";
         InputStream inputStream = new ByteArrayInputStream(stream.getBytes());
-        when(apiDAO.getDocumentFileContent(DOC_ID)).thenReturn(inputStream);
-        apiPublisher.getDocumentationContent(DOC_ID);
-        verify(apiDAO, times(1)).getDocumentFileContent(DOC_ID);
+        when(apiDAO.getDocumentFileContent(UUID, DOC_ID)).thenReturn(inputStream);
+        apiPublisher.getDocumentationContent(UUID, DOC_ID);
+        verify(apiDAO, times(1)).getDocumentFileContent(UUID, DOC_ID);
     }
 
     @Test(description = "Getting Documentation content when source type is INLINE")
@@ -226,11 +226,11 @@ public class AbstractAPIManagerTestCase {
         ApiDAO apiDAO = mock(ApiDAO.class);
         AbstractAPIManager apiPublisher = getApiPublisherImpl(apiDAO);
         DocumentInfo documentInfo = SampleTestObjectCreator.createDefaultDocumentationInfo();
-        when(apiDAO.getDocumentInfo(DOC_ID)).thenReturn(documentInfo);
-        when(apiDAO.getDocumentInlineContent(DOC_ID))
+        when(apiDAO.getDocumentInfo(UUID, DOC_ID)).thenReturn(documentInfo);
+        when(apiDAO.getDocumentInlineContent(UUID, DOC_ID))
                 .thenReturn(SampleTestObjectCreator.createDefaultInlineDocumentationContent());
-        apiPublisher.getDocumentationContent(DOC_ID);
-        verify(apiDAO, times(1)).getDocumentInlineContent(DOC_ID);
+        apiPublisher.getDocumentationContent(UUID, DOC_ID);
+        verify(apiDAO, times(1)).getDocumentInlineContent(UUID, DOC_ID);
     }
 
     /**
@@ -252,9 +252,9 @@ public class AbstractAPIManagerTestCase {
     public void testGetDocumentationSummaryException() throws APIManagementException {
         ApiDAO apiDAO = mock(ApiDAO.class);
         AbstractAPIManager apiStore = new APIStoreImpl(USER_NAME, apiDAO, null, null, null, null, null, null);
-        when(apiDAO.getDocumentInfo(UUID))
+        when(apiDAO.getDocumentInfo(UUID, UUID))
                 .thenThrow(new APIMgtDAOException("Error occurred while retrieving documents"));
-        apiStore.getDocumentationSummary(UUID);
+        apiStore.getDocumentationSummary(UUID, UUID);
     }
 
     @Test(description = "Exception when retrieving list of documentations",
@@ -418,10 +418,10 @@ public class AbstractAPIManagerTestCase {
         builder.name("CalculatorDoc");
         builder.sourceType(DocumentInfo.SourceType.FILE);
         DocumentInfo documentInfo = builder.build();
-        when(apiDAO.getDocumentInfo(DOC_ID)).thenReturn(documentInfo);
-        when(apiDAO.getDocumentFileContent(DOC_ID)).thenReturn(null);
-        apiPublisher.getDocumentationContent(DOC_ID);
-        verify(apiDAO, times(0)).getDocumentFileContent(DOC_ID);
+        when(apiDAO.getDocumentInfo(UUID, DOC_ID)).thenReturn(documentInfo);
+        when(apiDAO.getDocumentFileContent(UUID, DOC_ID)).thenReturn(null);
+        apiPublisher.getDocumentationContent(UUID, DOC_ID);
+        verify(apiDAO, times(0)).getDocumentFileContent(UUID, DOC_ID);
     }
 
     @Test(description = "Getting Documentation content when source type is INLINE and inline content is null",
@@ -430,10 +430,10 @@ public class AbstractAPIManagerTestCase {
         ApiDAO apiDAO = mock(ApiDAO.class);
         AbstractAPIManager apiPublisher = getApiPublisherImpl(apiDAO);
         DocumentInfo documentInfo = SampleTestObjectCreator.createDefaultDocumentationInfo();
-        when(apiDAO.getDocumentInfo(DOC_ID)).thenReturn(documentInfo);
-        when(apiDAO.getDocumentInlineContent(DOC_ID)).thenReturn(null);
-        apiPublisher.getDocumentationContent(DOC_ID);
-        verify(apiDAO, times(0)).getDocumentInlineContent(DOC_ID);
+        when(apiDAO.getDocumentInfo(UUID, DOC_ID)).thenReturn(documentInfo);
+        when(apiDAO.getDocumentInlineContent(UUID, DOC_ID)).thenReturn(null);
+        apiPublisher.getDocumentationContent(UUID, DOC_ID);
+        verify(apiDAO, times(0)).getDocumentInlineContent(UUID, DOC_ID);
     }
 
     @Test(description = "Getting Documentation content when document cannot be found",
@@ -441,10 +441,10 @@ public class AbstractAPIManagerTestCase {
     public void testGetDocumentationContentWhenDocumentNotFound() throws APIManagementException {
         ApiDAO apiDAO = mock(ApiDAO.class);
         AbstractAPIManager apiPublisher = getApiPublisherImpl(apiDAO);
-        when(apiDAO.getDocumentInfo(DOC_ID)).thenReturn(null);
-        apiPublisher.getDocumentationContent(DOC_ID);
-        verify(apiDAO, times(0)).getDocumentFileContent(DOC_ID);
-        verify(apiDAO, times(0)).getDocumentInlineContent(DOC_ID);
+        when(apiDAO.getDocumentInfo(UUID, DOC_ID)).thenReturn(null);
+        apiPublisher.getDocumentationContent(UUID, DOC_ID);
+        verify(apiDAO, times(0)).getDocumentFileContent(UUID, DOC_ID);
+        verify(apiDAO, times(0)).getDocumentInlineContent(UUID, DOC_ID);
     }
 
     @Test(description = "Exception when getting Documentation content due to error retrieving document content",
@@ -452,11 +452,11 @@ public class AbstractAPIManagerTestCase {
     public void testGetDocumentationContentErrorOnRetrieval() throws APIManagementException {
         ApiDAO apiDAO = mock(ApiDAO.class);
         AbstractAPIManager apiPublisher = getApiPublisherImpl(apiDAO);
-        when(apiDAO.getDocumentInfo(DOC_ID))
+        when(apiDAO.getDocumentInfo(UUID, DOC_ID))
                 .thenThrow(new APIMgtDAOException("Error occurred while retrieving document content"));
-        apiPublisher.getDocumentationContent(DOC_ID);
-        verify(apiDAO, times(0)).getDocumentFileContent(DOC_ID);
-        verify(apiDAO, times(0)).getDocumentInlineContent(DOC_ID);
+        apiPublisher.getDocumentationContent(UUID, DOC_ID);
+        verify(apiDAO, times(0)).getDocumentFileContent(UUID, DOC_ID);
+        verify(apiDAO, times(0)).getDocumentInlineContent(UUID, DOC_ID);
     }
 
     @Test(description = "Get Label by name")

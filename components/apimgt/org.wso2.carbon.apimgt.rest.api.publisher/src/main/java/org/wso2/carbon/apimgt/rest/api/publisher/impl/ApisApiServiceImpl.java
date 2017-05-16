@@ -115,7 +115,7 @@ public class ApisApiServiceImpl extends ApisApiService {
                 return Response.notModified().build();
             }
 
-            DocumentContent documentationContent = apiPublisher.getDocumentationContent(documentId);
+            DocumentContent documentationContent = apiPublisher.getDocumentationContent(apiId, documentId);
             DocumentInfo documentInfo = documentationContent.getDocumentInfo();
             if (DocumentInfo.SourceType.FILE.equals(documentInfo.getSourceType())) {
                 String filename = documentInfo.getFileName();
@@ -221,7 +221,7 @@ public class ApisApiServiceImpl extends ApisApiService {
             }
 
             //retrieves the document and send 404 if not found
-            DocumentInfo documentation = apiProvider.getDocumentationSummary(documentId);
+            DocumentInfo documentation = apiProvider.getDocumentationSummary(apiId, documentId);
             if (documentation == null) {
                 String msg = "Documntation not found " + documentId;
                 log.error(msg);
@@ -255,7 +255,7 @@ public class ApisApiServiceImpl extends ApisApiService {
             }
             apiProvider.updateDocumentation(apiId, docBuilder.build());
             //retrieving the updated doc and the URI
-            DocumentInfo updatedDoc = apiProvider.getDocumentationSummary(documentId);
+            DocumentInfo updatedDoc = apiProvider.getDocumentationSummary(apiId, documentId);
             String newFingerprint = apisApiIdDocumentsDocumentIdContentGetFingerprint(apiId, documentId, null,
                     null, null, request);
             DocumentDTO documentDTO = MappingUtil.toDocumentDTO(updatedDoc);
@@ -335,7 +335,7 @@ public class ApisApiServiceImpl extends ApisApiService {
                 return Response.notModified().build();
             }
 
-            DocumentInfo documentInfo = apiPublisher.getDocumentationSummary(documentId);
+            DocumentInfo documentInfo = apiPublisher.getDocumentationSummary(apiId, documentId);
             if (documentInfo != null) {
                 return Response.ok().header(HttpHeaders.ETAG, "\"" + existingFingerprint + "\"")
                         .entity(MappingUtil.toDocumentDTO(documentInfo)).build();
@@ -415,7 +415,7 @@ public class ApisApiServiceImpl extends ApisApiService {
             }
 
             //DocumentInfo documentInfo = MappingUtil.toDocumentInfo(body);
-            DocumentInfo documentInfoOld = apiPublisher.getDocumentationSummary(documentId);
+            DocumentInfo documentInfoOld = apiPublisher.getDocumentationSummary(apiId, documentId);
             //validation checks for existence of the document
             if (documentInfoOld == null) {
                 String msg = "Error while getting document";
@@ -451,7 +451,7 @@ public class ApisApiServiceImpl extends ApisApiService {
             apiPublisher.updateDocumentation(apiId, documentation);
 
             //retrieve the updated documentation
-            DocumentInfo newDocumentation = apiPublisher.getDocumentationSummary(documentId);
+            DocumentInfo newDocumentation = apiPublisher.getDocumentationSummary(apiId, documentId);
             String newFingerprint = apisApiIdDocumentsDocumentIdGetFingerprint(apiId, documentId, null, null, null,
                     request);
             return Response.ok().header(HttpHeaders.ETAG, "\"" + newFingerprint + "\"")
@@ -529,7 +529,7 @@ public class ApisApiServiceImpl extends ApisApiService {
             }
             //this will fail if user does not have access to the API or the API does not exist
             String docid = apiProvider.addDocumentationInfo(apiId, documentation);
-            documentation = apiProvider.getDocumentationSummary(docid);
+            documentation = apiProvider.getDocumentationSummary(apiId, docid);
             DocumentDTO newDocumentDTO = MappingUtil.toDocumentDTO(documentation);
             return Response.status(Response.Status.CREATED).entity(newDocumentDTO).build();
         } catch (APIManagementException e) {

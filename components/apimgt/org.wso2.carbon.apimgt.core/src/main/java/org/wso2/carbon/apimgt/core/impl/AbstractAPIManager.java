@@ -274,15 +274,13 @@ public abstract class AbstractAPIManager implements APIManager {
     }
 
     /**
-     * Get a summary of documentation by doc Id
+     * {@inheritDoc}
      *
-     * @param docId Document ID
-     * @return {@link DocumentInfo} Documentation meta data
-     * @throws APIManagementException if it failed to fetch Documentation
+     * this is simple override
      */
-    public DocumentInfo getDocumentationSummary(String docId) throws APIManagementException {
+    public DocumentInfo getDocumentationSummary(String apiId, String docId) throws APIManagementException {
         try {
-            return getApiDAO().getDocumentInfo(docId);
+            return getApiDAO().getDocumentInfo(apiId, docId);
         } catch (APIMgtDAOException e) {
             String errorMsg = "Error occurred while retrieving documents";
             log.error(errorMsg, e);
@@ -291,20 +289,16 @@ public abstract class AbstractAPIManager implements APIManager {
     }
 
     /**
-     * This method used to get the content of a documentation
-     *
-     * @param docId Document ID
-     * @return {@link InputStream} Input stream for document content
-     * @throws APIManagementException if the requested documentation content is not available
+     * {@inheritDoc}
      */
-    public DocumentContent getDocumentationContent(String docId) throws APIManagementException {
+    public DocumentContent getDocumentationContent(String apiId, String docId) throws APIManagementException {
         try {
-            DocumentInfo documentInfo = getDocumentationSummary(docId);
+            DocumentInfo documentInfo = getDocumentationSummary(apiId, docId);
             DocumentContent.Builder documentContentBuilder = new DocumentContent.Builder();
             if (documentInfo != null) {
                 documentContentBuilder.documentInfo(documentInfo);
                 if (DocumentInfo.SourceType.FILE.equals(documentInfo.getSourceType())) {
-                    InputStream inputStream = getApiDAO().getDocumentFileContent(docId);
+                    InputStream inputStream = getApiDAO().getDocumentFileContent(apiId, docId);
                     if (inputStream != null) {
                         documentContentBuilder = documentContentBuilder.fileContent(inputStream);
                     } else {
@@ -312,7 +306,7 @@ public abstract class AbstractAPIManager implements APIManager {
                                 .DOCUMENT_CONTENT_NOT_FOUND);
                     }
                 } else if (documentInfo.getSourceType().equals(DocumentInfo.SourceType.INLINE)) {
-                    String inlineContent = getApiDAO().getDocumentInlineContent(docId);
+                    String inlineContent = getApiDAO().getDocumentInlineContent(apiId, docId);
                     if (inlineContent != null) {
                         documentContentBuilder = documentContentBuilder.inlineContent(inlineContent);
                     } else {

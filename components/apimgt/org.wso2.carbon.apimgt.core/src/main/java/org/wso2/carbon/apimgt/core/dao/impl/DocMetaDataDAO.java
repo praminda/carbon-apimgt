@@ -112,14 +112,24 @@ class DocMetaDataDAO {
         }
     }
 
-    static DocumentInfo getDocumentInfo(Connection connection, String docID) throws SQLException {
-        final String query = "SELECT AM_API_DOC_META_DATA.UUID, AM_API_DOC_META_DATA.NAME, AM_API_DOC_META_DATA" +
-                ".SUMMARY, AM_API_DOC_META_DATA.TYPE, AM_API_DOC_META_DATA.OTHER_TYPE_NAME, AM_API_DOC_META_DATA" +
-                ".SOURCE_URL, AM_API_DOC_META_DATA.FILE_NAME, AM_API_DOC_META_DATA.SOURCE_TYPE, AM_API_DOC_META_DATA" +
-                ".VISIBILITY FROM AM_API_DOC_META_DATA WHERE AM_API_DOC_META_DATA.UUID = ?";
+    static DocumentInfo getDocumentInfo(Connection connection, String apiID, String docID) throws SQLException {
+        final String query = "SELECT "
+                + " AM_API_DOC_META_DATA.UUID, "
+                + " AM_API_DOC_META_DATA.NAME, "
+                + " AM_API_DOC_META_DATA.SUMMARY, "
+                + " AM_API_DOC_META_DATA.TYPE, "
+                + " AM_API_DOC_META_DATA.OTHER_TYPE_NAME, "
+                + " AM_API_DOC_META_DATA.SOURCE_URL, "
+                + " AM_API_DOC_META_DATA.FILE_NAME, "
+                + " AM_API_DOC_META_DATA.SOURCE_TYPE, "
+                + " AM_API_DOC_META_DATA.VISIBILITY "
+                + "FROM "
+                + " AM_API_DOC_META_DATA "
+                + "WHERE AM_API_RESOURCES.API_ID = ? AND AM_API_DOC_META_DATA.UUID = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setString(1, docID);
+            statement.setString(1, apiID);
+            statement.setString(2, docID);
             statement.execute();
 
             try (ResultSet rs =  statement.getResultSet()) {
@@ -171,7 +181,7 @@ class DocMetaDataDAO {
 
     static void addDocumentInfo(Connection connection, DocumentInfo documentInfo) throws SQLException {
         final String query = "INSERT INTO AM_API_DOC_META_DATA (UUID, NAME, SUMMARY, TYPE, OTHER_TYPE_NAME, " +
-                "SOURCE_URL, FILE_NAME, SOURCE_TYPE, VISIBILITY, CREATED_BY, CREATED_TIME, UPDATED_BY, " + 
+                "SOURCE_URL, FILE_NAME, SOURCE_TYPE, VISIBILITY, CREATED_BY, CREATED_TIME, UPDATED_BY, " +
                 "LAST_UPDATED_TIME) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {

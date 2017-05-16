@@ -159,7 +159,7 @@ public class ApiImportExportManager {
                 // iterate and collect document content
                 for (DocumentInfo aDocumentInfo : documentInfo) {
                     try {
-                        documentContents.add(apiPublisher.getDocumentationContent(aDocumentInfo.getId()));
+                        documentContents.add(apiPublisher.getDocumentationContent(api.getId(), aDocumentInfo.getId()));
                     } catch (APIManagementException e) {
                         log.error("Error in getting documentation content for api: " + api.getName() +
                                 ", version: " + api.getVersion() + ", doc id: " + aDocumentInfo.getId(), e);
