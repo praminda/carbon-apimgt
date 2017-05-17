@@ -87,6 +87,23 @@ DOC.prototype.getAll = function getAll(callback,apiId) {
     }
 };
 
+DOC.prototype.getDocumentContent = function (callback, apiId, docId) {
+    var _this = this;
+    var promiseGetContent = _this.client
+    .then(function (client) {
+        return client["API (individual)"]
+        .get_apis_apiId_documents_documentId_content({"documentId": docId, "apiId": apiId},
+        _this._requestMetaData({"Content-Type": "multipart/form-data"}))
+        .catch(unauthorizedErrorHandler);
+    });
+
+    if (callback) {
+        return promiseGetContent.then(callback);
+    } else {
+        return promiseGetContent;
+    }
+};
+
 function getCookie(name) {
     var value = "; " + document.cookie;
     var parts = value.split("; " + name + "=");

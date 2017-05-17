@@ -125,6 +125,8 @@ class DocMetaDataDAO {
                 + " AM_API_DOC_META_DATA.VISIBILITY "
                 + "FROM "
                 + " AM_API_DOC_META_DATA "
+                + "INNER JOIN "
+                + " AM_API_RESOURCES ON AM_API_DOC_META_DATA.UUID = AM_API_RESOURCES.UUID "
                 + "WHERE AM_API_RESOURCES.API_ID = ? AND AM_API_DOC_META_DATA.UUID = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {

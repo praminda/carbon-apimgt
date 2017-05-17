@@ -547,9 +547,9 @@ $(function () {
                             if (jsonData.status == 202) {
                                 //workflow related code
                                 var jsonResponse;
-                                if (subscription.jsonPayload) {                                 
+                                if (subscription.jsonPayload) {
                                     jsonResponse = JSON.parse(subscription.jsonPayload);
-                                }                          
+                                }
                                 if (jsonResponse && jsonResponse.redirectUrl) {
                                     var message = jsonResponse.redirectConfirmationMsg;
                                     noty({
@@ -879,8 +879,8 @@ $(function () {
 
 
     });
-});
 
+});
 
 /**
  * Callback method to handle apis data after receiving them via the REST API
@@ -935,6 +935,12 @@ function getDOCsCallback(jsonData) {
     UUFClient.renderFragment("org.wso2.carbon.apimgt.web.store.feature.api-documentations",docs, {
         onSuccess: function (renderedData) {
             $("#api-documentation").append(renderedData);
+            var docInstance = new DOC();
+            $(".doc-content").click(function () {
+                var apiId = $("#apiId").val();
+                var docId = $(this).attr("data-doc-id");
+                docInstance.getDocumentContent(getDocContentCallback, apiId, docId);
+            });
 
         }, onFailure: function (message, e) {
             var message = "Error occurred while getting api documentation details." + message;
@@ -951,6 +957,51 @@ function getDOCsCallback(jsonData) {
             });
         }
     });
+}
+
+function getDocContentCallback(data) {
+    downloadFile(data);
+}
+
+function downloadFile(response) {
+    var fileName = "";
+    var contentDisposition = response.headers["content-disposition"];
+
+    if (contentDisposition && contentDisposition.indexOf('attachment') !== -1) {
+        var fileNameReg = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+        var matches = fileNameReg.exec(contentDisposition);
+        if (matches != null && matches[1]) fileName = matches[1].replace(/['"]/g, '');
+    }
+
+    var contentType = response.headers["content-type"];
+    var blob = new Blob([response.data], {
+        type: contentType
+    });
+
+    if (typeof window.navigator.msSaveBlob !== 'undefined') {
+        window.navigator.msSaveBlob(blob, fileName);
+    } else {
+        var URL = window.URL || window.webkitURL;
+        var downloadUrl = URL.createObjectURL(blob);
+
+        if (fileName) {
+            var anchor = document.createElement("a");
+            if (typeof anchor.download === 'undefined') {
+                window.location = downloadUrl;
+            } else {
+                anchor.href = downloadUrl;
+                anchor.download = fileName;
+                document.body.appendChild(anchor);
+                anchor.click();
+            }
+        } else {
+            window.location = downloadUrl;
+        }
+
+        setTimeout(function() {
+            URL.revokeObjectURL(downloadUrl);
+        }, 100);
+    }
 }
 
 function applicationSelectionChange() {
@@ -1059,7 +1110,7 @@ var select_environment = function(event) {
   };
 
 function checkOnKeyPress(e) {
-	if (e.which == 13 ||e.keyCode == 13) {
-		return false;
-		}
+    if (e.which == 13 ||e.keyCode == 13) {
+        return false;
 	}
+}

@@ -702,19 +702,18 @@ function documentTabHandler(event) {
     var api_client = event.data.api_client;
     var api_id = event.data.api_id;
     var callbacks = {
-            onSuccess: function (data) {
+        onSuccess: function (data) {
             api_client.getDocuments(api_id,getDocsCallback);
             if(!hasValidScopes("/apis/{apiId}/documents", "post")) {
-              $('#add-new-doc').addClass('not-active');
+                $('#add-new-doc').addClass('not-active');
             }
-            }, onFailure: function (data) {
-           }
-          };
-     var mode = "OVERWRITE";
-     var data = {};
-     UUFClient.renderFragment("org.wso2.carbon.apimgt.publisher.commons.ui.api-documents", data, "api-tab-doc-content", mode, callbacks);
-    }
-    
+        }, onFailure: function (data) {
+        }
+    };
+    var mode = "OVERWRITE";
+    var data = {};
+    UUFClient.renderFragment("org.wso2.carbon.apimgt.publisher.commons.ui.api-documents", data, "api-tab-doc-content", mode, callbacks);
+}
 
     /**
      * Event handler for API Console tab onclick event;Get the API swagger definition and display in Swagger UI
